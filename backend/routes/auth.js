@@ -4,8 +4,9 @@ const User = require("../models/Users");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-//create a user using: POST "/api/auth/createuser". not'n requqire authontication
+var fetchuser = require("../middleware/fetchuser");
+const JWT_SECRET = "pradeepSwainkumar2008";
+//Route 1:create a user using: POST "/api/auth/createuser". not'n requqire authontication
 router.post(
   "/createuser",
   [body("name", "Name should be atleast 3 characters").isLength({ min: 3 }), body("email", "Enter a valid email").isEmail(), body("password", "Passowrd must be atleast 5 characters").isLength({ min: 5 })],
@@ -38,7 +39,7 @@ router.post(
           id: user.id,
         },
       };
-      const authtoken = jwt.sign({ data: data }, "secret", { expiresIn: "1h" });
+      const authtoken = jwt.sign(data, JWT_SECRET);
 
       res.json({ authtoken });
       // res.json(user);
@@ -50,7 +51,7 @@ router.post(
     }
   }
 );
-//create a user using: POST "/api/auth/login". requqires authontication
+//Route 2 :create a user using: POST "/api/auth/login". requqires authontication
 router.post("/login", [body("email", "Enter a valid email").isEmail(), body("password", "Passowrd should not be blank").exists()], async (req, res) => {
   //if there are errors, returns bad request and the errors
   const errors = validationResult(req);
@@ -77,7 +78,7 @@ router.post("/login", [body("email", "Enter a valid email").isEmail(), body("pas
         id: user.id,
       },
     };
-    const authtoken = jwt.sign({ data: data }, "secret", { expiresIn: "1h" });
+    const authtoken = jwt.sign(data, JWT_SECRET);
 
     res.json({ authtoken });
     // res.json(user);
@@ -85,6 +86,19 @@ router.post("/login", [body("email", "Enter a valid email").isEmail(), body("pas
     //for log in console
     console.error(error.message);
     //for log in response
+    res.status(500).send("Internal Sever Error Occured");
+  }
+});
+
+//Route 3:get login user details using: POST "/api/auth/getuser". requqires authontication
+
+router.post("/getuser", fetchuser, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const user = await User.findById(userId).select("-password");
+    res.send(user);
+  } catch (error) {
+    console.error(error.message);
     res.status(500).send("Internal Sever Error Occured");
   }
 });
