@@ -2,3 +2,4 @@
  npm i express
 npm i mongoose
 npm i -D nodemon //make node depend
+nmp install express-validator
