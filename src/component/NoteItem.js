@@ -12,7 +12,7 @@ export default function NoteItem(props) {
             <div className="d-flex flex-wrap">
                 {props.notes.map((note) => {
                     return (
-                        <div className="card col-md-3 m-1 col-12">
+                        <div key={note._id} className="card col-md-3 m-1 col-12">
                             <div className="card-body">
                                 <div className="d-flex justify-content-between">
                                     <div>
