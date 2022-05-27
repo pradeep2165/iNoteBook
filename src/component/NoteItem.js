@@ -3,11 +3,11 @@ import React from "react";
 export default function NoteItem(props) {
     return (
         <div className="container">
-            <h1>Your Notes</h1>
+            <h1>Yours Notes</h1>
             <div className="d-flex flex-wrap">
                 {props.notes.map((note) => {
                     return (
-                        <div key={note._id} className="card col-md-3 m-1 col-12">
+                        <div className="card col-md-3 m-1 col-12">
                             <div className="card-body">
                                 <div className="d-flex justify-content-between">
                                     <div>
@@ -22,7 +22,8 @@ export default function NoteItem(props) {
                             </div>
                         </div>
                     );
-                })}
+                }
+                )}
             </div>
         </div>
     );
