@@ -11,7 +11,7 @@ export default function AddNote() {
     })
     const handelClick = (e) => {
         e.preventDefault();
-        addNote(note.title, note.description, note.tag);
+        addNote(note);
     }
     const onChange = (e) => {
         e.preventDefault();
