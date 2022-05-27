@@ -5,12 +5,14 @@ import Navbar from "./component/Navbar";
 import Home from "./component/Home";
 import About from "./component/About";
 import NoteState from "./context/note/NoteState";
+import Alert from "./component/Alert";
 function App() {
   return (
     <>
       <NoteState>
         <BrowserRouter>
           <Navbar />
+          <Alert message="it is working" />
           <Routes>
             <Route exact path="/" element={<Home />}></Route>
             <Route exact path="/home" element={<Home />}></Route>

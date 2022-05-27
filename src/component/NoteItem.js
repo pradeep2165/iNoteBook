@@ -1,23 +1,29 @@
-import React from 'react'
+import React from "react";
 
 export default function NoteItem(props) {
     return (
-        <div className='container my-3'>
+        <div className="container">
             <h1>Your Notes</h1>
             <div className="d-flex flex-wrap">
                 {props.notes.map((note) => {
                     return (
-                        <div className='col-md-3'>
-                            <div className='card p-2 m-2'>
-                                <h5 className="card-body">{note.title}</h5>
-                                <p className="card-title">{note.description} Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus sit rerum consectetur eos mollitia magnam deleniti expedita sint voluptate asperiores possimus sapiente et magni, fugit quas ullam quibusdam fugiat eligendi?
-                                </p>
-
+                        <div key={note._id} className="card col-md-3 m-1 col-12">
+                            <div className="card-body">
+                                <div className="d-flex justify-content-between">
+                                    <div>
+                                        <h5 className="card-title">{note.title}</h5>
+                                    </div>
+                                    <div>
+                                        <i className="fa-solid fa-pen-to-square mx-2"></i>
+                                        <i className="fa-solid fa-trash-can mx-2"></i>
+                                    </div>
+                                </div>
+                                <p className="card-text">{note.description}</p>
                             </div>
                         </div>
-                    )
+                    );
                 })}
             </div>
         </div>
-    )
+    );
 }
