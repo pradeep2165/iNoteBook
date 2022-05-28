@@ -71,7 +71,7 @@ export default function NoteItem(props) {
                             <button ref={refclose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                                 Close
                             </button>
-                            <button type="button" className="btn btn-primary" onClick={handelClick}>
+                            <button disabled={note.title.length < 3 | note.description.length < 5} type="button" className="btn btn-primary" onClick={handelClick}>
                                 Update Note
                             </button>
                         </div>
@@ -80,6 +80,7 @@ export default function NoteItem(props) {
             </div>
             <h1>Yours Notes</h1>
             <div className="d-flex flex-wrap">
+                {props.notes.length === 0 && "No notes to display"}
                 {props.notes.map((note) => {
                     return (
                         <div key={note._id} className="card col-md-3 m-1 col-12">
