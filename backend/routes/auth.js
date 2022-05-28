@@ -51,7 +51,7 @@ router.post(
     }
   }
 );
-//Route 2 :create a user using: POST "/api/auth/login". requqires authontication
+//Route 2 :Login a user using: POST "/api/auth/login". requqires authontication
 router.post("/login", [body("email", "Enter a valid email").isEmail(), body("password", "Passowrd should not be blank").exists()], async (req, res) => {
   //if there are errors, returns bad request and the errors
   const errors = validationResult(req);
@@ -64,13 +64,16 @@ router.post("/login", [body("email", "Enter a valid email").isEmail(), body("pas
   try {
     //finding users with email id
     let user = await User.findOne({ email });
+    let success = false;
     if (!user) {
+      success = false;
       return res.status(400).json({ error: "Please try to login with correct credentials" });
     }
     //compare password by bcrypt
     const passwordCompare = await bcrypt.compare(password, user.password);
     if (!passwordCompare) {
-      return res.status(400).json({ error: "Please try to login with correct credentials" });
+      success = false;
+      return res.status(400).json({ success, error: "Please try to login with correct credentials" });
     }
 
     const data = {
@@ -79,8 +82,8 @@ router.post("/login", [body("email", "Enter a valid email").isEmail(), body("pas
       },
     };
     const authtoken = jwt.sign(data, JWT_SECRET);
-
-    res.json({ authtoken });
+    success = true;
+    res.json({ success, authtoken });
     // res.json(user);
   } catch (error) {
     //for log in console
