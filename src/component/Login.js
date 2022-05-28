@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+export default function Login(props) {
     let navigate = useNavigate();
     const [data, setData] = useState({
         email: "",
@@ -25,8 +25,9 @@ export default function Login() {
             //save the auth-token and redirect;
             localStorage.setItem('token', json.authtoken);
             navigate("/", { replace: true })
+            props.showAlert(`Welcome ${data.email}`, "success");
         } else {
-            alert("invalid credential");
+            props.showAlert(`Invalid Credential`, "danger");
         }
 
     }
@@ -36,11 +37,11 @@ export default function Login() {
                 <h3>Login </h3>
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                    <input type="email" className="form-control" name="email" aria-describedby="emailHelp" onChange={onChange} />
+                    <input type="email" className="form-control" name="email" aria-describedby="emailHelp" onChange={onChange} autoComplete="off" required />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                    <input type="password" className="form-control" name="password" onChange={onChange} autoComplete="off" />
+                    <input type="password" className="form-control" name="password" onChange={onChange} autoComplete="off" required />
                 </div>
 
                 <button type="submit" className="btn btn-primary">Submit</button>

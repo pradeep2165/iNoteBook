@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Signup() {
+export default function Signup(props) {
     let navigate = useNavigate();
     const [data, setData] = useState({
         name: "",
@@ -16,8 +16,9 @@ export default function Signup() {
 
     const handelSubmit = async (e) => {
         e.preventDefault();
+        console.log(data);
         if (data.password === data.cpassword) {
-            delete data['cpassword'];
+            // delete data['cpassword'];
 
             const response = await fetch("http://localhost:5000/api/auth/createuser", {
                 method: "POST",
@@ -31,12 +32,13 @@ export default function Signup() {
                 //save the auth-token and redirect;
                 localStorage.setItem("token", json.authtoken);
                 navigate("/", { replace: true });
+                props.showAlert(`Welcome ${data.email}`, "success");
             } else {
-                alert("invalid credential");
+                props.showAlert(`${json.error}`, "danger");
             }
 
         } else {
-            alert("password not matchting");
+            props.showAlert("Confirm password is not matching", "warning");
         }
 
     };
@@ -48,25 +50,25 @@ export default function Signup() {
                     <label htmlFor="Name" className="form-label">
                         Name
                     </label>
-                    <input type="text" className="form-control" name="name" onChange={onChange} />
+                    <input type="text" className="form-control" name="name" onChange={onChange} minLength={3} required />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">
                         Email address
                     </label>
-                    <input type="email" className="form-control" name="email" aria-describedby="emailHelp" onChange={onChange} />
+                    <input type="email" className="form-control" name="email" aria-describedby="emailHelp" onChange={onChange} minLength={5} required />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label">
                         Password
                     </label>
-                    <input type="password" className="form-control" name="password" onChange={onChange} autoComplete="off" />
+                    <input type="password" className="form-control" name="password" onChange={onChange} autoComplete="off" minLength={5} required />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label">
                         Confirm Password
                     </label>
-                    <input type="password" className="form-control" name="cpassword" onChange={onChange} autoComplete="off" />
+                    <input type="password" className="form-control" name="cpassword" onChange={onChange} autoComplete="off" minLength={5} required />
                 </div>
 
                 <button type="submit" className="btn btn-primary">

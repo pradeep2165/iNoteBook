@@ -22,6 +22,7 @@ export default function NoteItem(props) {
         e.preventDefault();
         editNote(note);
         refclose.current.click();
+        props.showAlert("Note Updated", "success");
     }
     const onChange = (e) => {
         e.preventDefault();
@@ -91,7 +92,12 @@ export default function NoteItem(props) {
                                     </div>
                                     <div>
                                         <i className="fa-solid fa-pen-to-square mx-2" onClick={() => updateNote(note)}></i>
-                                        <i className="fa-solid fa-trash-can mx-2" onClick={() => { return deleteNote(note._id) }}></i>
+                                        <i className="fa-solid fa-trash-can mx-2" onClick={() => {
+                                            deleteNote(note._id)
+                                            props.showAlert("Note deleted", "success")
+                                        }}>
+
+                                        </i>
                                     </div>
                                 </div>
                                 <p className="card-text">{note.description}</p>
