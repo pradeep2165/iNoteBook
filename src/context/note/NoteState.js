@@ -48,6 +48,8 @@ const NoteState = (props) => {
             },
 
         });
+        const json = await response.json()
+        console.log(json);
 
         const newNotes = notes.filter((note) => { return note._id !== id });
         setNotes(newNotes);
@@ -64,16 +66,19 @@ const NoteState = (props) => {
             body: JSON.stringify(data)
         });
         const json = await response.json();
-        console.log(json)
+        console.log(json);
+        let newNotes = JSON.parse(JSON.stringify(notes))
         // api call
-        for (let index = 0; index < notes.length; index++) {
-            const element = notes[index];
-            if (element._id === data._id) {
-                element.title = data.title;
-                element.description = data.description;
-                element.tag = data.tag;
+        for (let index = 0; index < newNotes.length; index++) {
+            const element = newNotes[index];
+            if (element._id === json._id) {
+                newNotes[index].title = json.title;
+                newNotes[index].description = json.description;
+                newNotes[index].tag = json.tag;
+                break;
             }
         }
+        setNotes(newNotes);
 
 
     };

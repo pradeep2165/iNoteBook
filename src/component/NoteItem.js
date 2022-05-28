@@ -6,6 +6,7 @@ export default function NoteItem(props) {
     const context = useContext(noteContext);
     const { deleteNote, editNote } = context;
     const ref = useRef(null);
+    const refclose = useRef(null);
 
     const [note, setNote] = useState({
         title: "",
@@ -20,6 +21,7 @@ export default function NoteItem(props) {
     const handelClick = (e) => {
         e.preventDefault();
         editNote(note);
+        refclose.current.click();
     }
     const onChange = (e) => {
         e.preventDefault();
@@ -66,7 +68,7 @@ export default function NoteItem(props) {
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                            <button ref={refclose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                                 Close
                             </button>
                             <button type="button" className="btn btn-primary" onClick={handelClick}>
