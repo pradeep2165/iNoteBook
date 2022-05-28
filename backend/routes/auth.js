@@ -13,15 +13,16 @@ router.post(
   async (req, res) => {
     //if there are errors, returns bad request and the errors
     const errors = validationResult(req);
+    let success = false;
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success: false, errors: errors.array() });
     }
 
     //check weather the user with this email exists already
     try {
       let user = await User.findOne({ email: req.body.email });
       if (user) {
-        return res.status(400).json({ error: "Sorry a user with this email already exits" });
+        return res.status(400).json({ success: false, error: "Sorry a user with this email already exits" });
       }
 
       //secure password by bcrypt
@@ -40,8 +41,8 @@ router.post(
         },
       };
       const authtoken = jwt.sign(data, JWT_SECRET);
-
-      res.json({ authtoken });
+      success = true;
+      res.json({ success, authtoken });
       // res.json(user);
     } catch (error) {
       //for log in console
@@ -55,8 +56,9 @@ router.post(
 router.post("/login", [body("email", "Enter a valid email").isEmail(), body("password", "Passowrd should not be blank").exists()], async (req, res) => {
   //if there are errors, returns bad request and the errors
   const errors = validationResult(req);
+  let success = false;
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ success: false, errors: errors.array() });
   }
 
   const { email, password } = req.body;
@@ -64,7 +66,7 @@ router.post("/login", [body("email", "Enter a valid email").isEmail(), body("pas
   try {
     //finding users with email id
     let user = await User.findOne({ email });
-    let success = false;
+
     if (!user) {
       success = false;
       return res.status(400).json({ error: "Please try to login with correct credentials" });

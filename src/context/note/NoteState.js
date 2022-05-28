@@ -5,6 +5,7 @@ const NoteState = (props) => {
     const host = "http://localhost:5000";
     const notesInitial = [];
     const [notes, setNotes] = useState(notesInitial);
+    const token = localStorage.getItem('token');
 
     //Get all notes
     const getNotes = async () => {
@@ -13,7 +14,7 @@ const NoteState = (props) => {
 
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjI4ZjI1ZmY0YjY5NDk4NDc1MDRlYzk2In0sImlhdCI6MTY1MzU0ODU5NX0.o5EV8uh8CU-CJ_nquyiKcNwS1mS4lP_xItlYLtW2TZk"
+                "auth-token": token,
             }
 
         });
@@ -22,13 +23,14 @@ const NoteState = (props) => {
     }
     //add note
     const addNote = async (data) => {
+        const token = localStorage.getItem('token');
         //api call
         const response = await fetch(`${host}/api/notes/addnote`, {
 
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjI4ZjI1ZmY0YjY5NDk4NDc1MDRlYzk2In0sImlhdCI6MTY1MzU0ODU5NX0.o5EV8uh8CU-CJ_nquyiKcNwS1mS4lP_xItlYLtW2TZk"
+                "auth-token": token,
             },
             body: JSON.stringify(data)
         });
@@ -39,12 +41,13 @@ const NoteState = (props) => {
     // //delete note
     const deleteNote = async (id) => {
         //api call
+        const token = localStorage.getItem('token');
         const response = await fetch(`${host}/api/notes/delete_note/${id}`, {
             method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
 
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjI4ZjI1ZmY0YjY5NDk4NDc1MDRlYzk2In0sImlhdCI6MTY1MzU0ODU5NX0.o5EV8uh8CU-CJ_nquyiKcNwS1mS4lP_xItlYLtW2TZk"
+                "auth-token": token
             },
 
         });
@@ -56,12 +59,13 @@ const NoteState = (props) => {
     };
     // //edit note
     const editNote = async (data) => {
+        const token = localStorage.getItem('token');
         const response = await fetch(`${host}/api/notes/update_note/${data._id}`, {
             method: 'PUT', // *GET, POST, PUT, DELETE, etc.
 
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjI4ZjI1ZmY0YjY5NDk4NDc1MDRlYzk2In0sImlhdCI6MTY1MzU0ODU5NX0.o5EV8uh8CU-CJ_nquyiKcNwS1mS4lP_xItlYLtW2TZk"
+                "auth-token": token
             },
             body: JSON.stringify(data)
         });
