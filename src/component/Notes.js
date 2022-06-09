@@ -4,7 +4,7 @@ import AddNote from "./AddNote";
 import NoteItem from "./NoteItem";
 import { useNavigate } from "react-router-dom";
 
-export default function Notes(props) {
+export default function Notes() {
   const context = useContext(noteContext);
   let navigate = useNavigate();
 
@@ -21,8 +21,8 @@ export default function Notes(props) {
 
   return (
     <>
-      <AddNote showAlert={props.showAlert} />
-      <NoteItem notes={notes} showAlert={props.showAlert} />
+      <AddNote />
+      <NoteItem notes={notes} />
     </>
   );
 }

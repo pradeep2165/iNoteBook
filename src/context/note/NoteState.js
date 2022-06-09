@@ -83,6 +83,19 @@ const NoteState = (props) => {
     }
     setNotes(newNotes);
   };
-  return <NoteContext.Provider value={{ getNotes, notes, addNote, deleteNote, editNote }}>{props.children}</NoteContext.Provider>;
+
+  const [alert, setAlert] = useState(null);
+
+  const showAlert = (message, alertType) => {
+    setAlert({
+      msg: message,
+      type: alertType,
+    });
+    setTimeout(() => {
+      setAlert(null);
+    }, 2500);
+  };
+
+  return <NoteContext.Provider value={{ getNotes, notes, addNote, deleteNote, editNote, alert, showAlert }}>{props.children}</NoteContext.Provider>;
 };
 export default NoteState;
