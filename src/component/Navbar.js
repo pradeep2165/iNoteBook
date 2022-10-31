@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
+import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import noteContext from "../context/note/noteContext";
+
 
 export default function Navbar() {
   let location = useLocation();
   let navigate = useNavigate();
+  const {darkMode, setDarkMode} = useContext(noteContext)
   useEffect(() => {}, [location]);
   const handelLogout = () => {
     localStorage.removeItem("token");
@@ -11,7 +15,7 @@ export default function Navbar() {
   };
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className={`navbar navbar-expand-lg navbar-${darkMode ? "dark":"primary"} bg-${darkMode ? "dark":"primary"} bg-gradient bg-opacity-${darkMode ? "1":"25"}`}>
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             iNoteBook
@@ -32,7 +36,9 @@ export default function Navbar() {
                 </Link>
               </li>
             </ul>
-
+            <div className="form-check form-switch">
+  <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onChange={()=>setDarkMode((x)=>!x)}/>  
+</div>
             {!localStorage.getItem("token") && (
               <form className="d-flex">
                 <Link role="button" className="btn btn-primary mx-1" to="/login">
@@ -45,7 +51,7 @@ export default function Navbar() {
             )}
 
             {localStorage.getItem("token") && (
-              <button type="button" className="btn btn-primary mx-1" onClick={handelLogout}>
+              <button type="button" className={`btn btn-${darkMode ? "dark":"light"} mx-1`} onClick={handelLogout}>
                 Logout
               </button>
             )}

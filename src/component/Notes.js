@@ -20,9 +20,9 @@ export default function Notes() {
   }, []);
 
   return (
-    <>
+    <div className="d-flex flex-column flex-md-col m-auto container">
       <AddNote />
       <NoteItem notes={notes} />
-    </>
+    </div>
   );
 }

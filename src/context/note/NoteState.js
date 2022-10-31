@@ -4,6 +4,7 @@ import NoteContext from "./noteContext";
 const NoteState = (props) => {
   const host = "http://localhost:5000";
   const notesInitial = [];
+  const [darkMode, setDarkMode] = useState(false);
   const [notes, setNotes] = useState(notesInitial);
   const token = localStorage.getItem("token");
 
@@ -96,6 +97,6 @@ const NoteState = (props) => {
     }, 2500);
   };
 
-  return <NoteContext.Provider value={{ getNotes, notes, addNote, deleteNote, editNote, alert, showAlert }}>{props.children}</NoteContext.Provider>;
+  return <NoteContext.Provider value={{ getNotes, notes, addNote, deleteNote, editNote, alert, showAlert, darkMode, setDarkMode }}>{props.children}</NoteContext.Provider>;
 };
 export default NoteState;
